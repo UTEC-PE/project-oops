@@ -32,10 +32,12 @@ class Graph {
         typedef typename EdgeSeq::iterator EdgeIte;
         
         E nodos,aristas;
+        bool directed;
 
         Graph(){
             nodos = 0;
             aristas = 0;
+            directed = 0;
         }
 
         void leerArchivo(string archivo){
@@ -63,6 +65,10 @@ class Graph {
                 }
             }
             return buscador;
+        }
+
+        bool buscarArista(E nodeStart, E nodeEnd){
+
         }
 
         void insertarNodo(E nombre,float x, float y){
@@ -144,6 +150,48 @@ class Graph {
                 }
                 cout << endl;
             }
+        }
+
+        // vector<<pair>> bfs(){} BFS Y DFS PUEDEN DEVOLVER LISTAS
+
+        void bfs(N nombre){
+            // TODO
+        }
+
+        void dfs(N nombre){
+            // TODO
+        }
+
+        float density(float cota){
+            // TODO
+        }
+
+        E prim(N nombre){
+            // TODO
+        }
+
+        E kruskal(){
+            // TODO
+        }
+
+        void grades(){
+            // TODO
+        }
+
+        bool isDirected(){
+
+        }
+
+        bool isConnect(){
+
+        }
+
+        bool isStronglyConnected(){
+
+        }
+
+        bool isBipartite(){
+
         }
 
     private:
