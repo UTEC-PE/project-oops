@@ -38,6 +38,8 @@ class Graph {
             aristas = 0;
         }
 
+        ~Graph(){}
+
         void leerArchivo(string archivo){
             ifstream texto(archivo);
             int numeroNodos,inicio,fin,peso;
@@ -145,6 +147,13 @@ class Graph {
                 cout << endl;
             }
         }
+
+        //Denso/disperso
+        //tipo y grado vertices
+        //Buscar arista
+        //Conexo/fuertemente conexo/bipartito
+        //Prim/Kruskal
+        //BFS/DFS
 
     private:
         NodeSeq nodes;
