@@ -10,6 +10,8 @@ int main(int argc, char const *argv[]){
 	grafo.removerArista(0,1);
 	grafo.print();
 
-	cout<<endl<<grafo.density();
-	return 0;
+	cout<<endl<<grafo.density()<<endl;
+    grafo.dfs(0);
+
+    return 0;
 }

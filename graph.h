@@ -166,13 +166,24 @@ class Graph {
 
         }
 
+        void dfsSupp(N nombre, bool visited[]){
+//              TODO
+        }
+
+
         void dfs(N nombre){
             // TODO
+            bool *visited = new bool[nodos];
+            for(int i =0 ;i<nodos;i++)
+                visited[i] = false;
 
+//            for(int i =0 ;i<nodos;i++)
+//                cout<<visited[i]<<" ";
+
+            dfsSupp(nombre, visited);
         }
 
         float density(){
-            // TODO
             if(this->isDirected())
                 return (float)aristas/(nodos*(nodos-1));
             return 2*(float)aristas/(nodos*(nodos-1));

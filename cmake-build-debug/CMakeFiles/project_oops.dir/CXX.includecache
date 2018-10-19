@@ -6,11 +6,11 @@
 
 #IncludeRegexTransform: 
 
-/home/pyxel/Desktop/UTEC/4to_semestre/AED/project/project-oops/edge.h
+/home/damin/Escritorio/project-oops/edge.h
 node.h
-/home/pyxel/Desktop/UTEC/4to_semestre/AED/project/project-oops/node.h
+/home/damin/Escritorio/project-oops/node.h
 
-/home/pyxel/Desktop/UTEC/4to_semestre/AED/project/project-oops/graph.h
+/home/damin/Escritorio/project-oops/graph.h
 vector
 -
 list
@@ -22,15 +22,15 @@ string
 iostream
 -
 node.h
-/home/pyxel/Desktop/UTEC/4to_semestre/AED/project/project-oops/node.h
+/home/damin/Escritorio/project-oops/node.h
 edge.h
-/home/pyxel/Desktop/UTEC/4to_semestre/AED/project/project-oops/edge.h
+/home/damin/Escritorio/project-oops/edge.h
 
-/home/pyxel/Desktop/UTEC/4to_semestre/AED/project/project-oops/main.cpp
+/home/damin/Escritorio/project-oops/main.cpp
 iostream
 -
 graph.h
-/home/pyxel/Desktop/UTEC/4to_semestre/AED/project/project-oops/graph.h
+/home/damin/Escritorio/project-oops/graph.h
 
-/home/pyxel/Desktop/UTEC/4to_semestre/AED/project/project-oops/node.h
+/home/damin/Escritorio/project-oops/node.h
 
