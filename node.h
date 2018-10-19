@@ -13,8 +13,8 @@ class Node {
 
         Node(N nombre,double x,double y){
             data = nombre;
-            x = x;
-            y = y;
+            this->x = x;
+            this->y = y;
         }
 
         N recibirData(){

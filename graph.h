@@ -31,7 +31,7 @@ class Graph {
         typedef typename NodeSeq::iterator NodeIte;
         typedef typename EdgeSeq::iterator EdgeIte;
         
-        E nodos,aristas;
+        E nodos, aristas;
         bool directed;
 
         Graph(){
@@ -42,18 +42,24 @@ class Graph {
 
         void leerArchivo(string archivo){
             ifstream texto(archivo);
-            int numeroNodos,inicio,fin,peso;
-            bool direccion;
-            float x,y;
-            texto >> numeroNodos;
-            for (int i = 0; i < numeroNodos; i++){
-                texto >> x >> y;
-                insertarNodo(i,x,y);
+            if(texto.is_open()){
+                int numeroNodos,inicio,fin,peso;
+                bool direccion;
+                float x,y;
+                texto >> numeroNodos;
+                for (int i = 0; i < numeroNodos; i++){
+                    texto >> x >> y;
+                    insertarNodo(i,x,y);
+                }
+                while (texto >> inicio >> fin >> peso >> direccion){
+                    insertarArista(inicio,fin,peso,direccion);
+                }
+                texto.close();
             }
-            while (texto >> inicio >> fin >> peso >> direccion){
-                insertarArista(inicio,fin,peso,direccion);
+            else{
+                cout<<"Error opening file";
+                return;
             }
-            texto.close();
         }
 
         node *buscarNodo(E nombre){
@@ -100,7 +106,8 @@ class Graph {
                 if (direccion == 0){
                     edge *nuevaArista2 = new edge(nodes[nodoFinal],nodes[nodoInicial],peso,direccion);
                     nodes[nodoFinal]->edges.push_back(nuevaArista);
-                }
+                } else
+                    directed=1;
                 aristas++;                
             }else{
                 cout << "Uno o más nodos no existentes" << endl;
@@ -133,8 +140,8 @@ class Graph {
                     nodo2->edges.erase(ei);
                     delete *ei;
                     break;
+                    }
                 }
-            }    
             }
         }
 
@@ -156,14 +163,19 @@ class Graph {
 
         void bfs(N nombre){
             // TODO
+
         }
 
         void dfs(N nombre){
             // TODO
+
         }
 
-        float density(float cota){
+        float density(){
             // TODO
+            if(this->isDirected())
+                return (float)aristas/(nodos*(nodos-1));
+            return 2*(float)aristas/(nodos*(nodos-1));
         }
 
         E prim(N nombre){
@@ -179,7 +191,7 @@ class Graph {
         }
 
         bool isDirected(){
-
+            return directed;
         }
 
         bool isConnect(){
