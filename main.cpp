@@ -7,8 +7,9 @@ int main(int argc, char const *argv[]){
 	grafo.leerArchivo("texto.txt");
 	grafo.print();
 	cout << endl;
-	grafo.removerArista(0,1);
+	//grafo.removerArista(1,3);
+	grafo.removerNodo(4);
+	//grafo.prim();
 	grafo.print();
-
 	return 0;
 }

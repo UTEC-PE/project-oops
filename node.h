@@ -15,16 +15,30 @@ class Node {
             data = nombre;
             x = x;
             y = y;
+            visitado = false;
         }
 
         N recibirData(){
             return data;
         }
 
+        bool esVisitado(){
+            return visitado;
+        }
+
+        void Visitado(){
+            visitado = true;
+        }
+
+        void noVisitado(){
+            visitado = false;
+        }
+
     private:
         N data;
         double x;
-        double y; 
+        double y;
+        bool visitado; 
 };
 
 #endif
