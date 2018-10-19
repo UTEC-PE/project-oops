@@ -12,6 +12,7 @@ int main(int argc, char const *argv[]){
 
 	cout<<endl<<grafo.density()<<endl;
     grafo.dfs(0);
+    grafo.grados();
 
     return 0;
 }

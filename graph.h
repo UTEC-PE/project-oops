@@ -9,6 +9,7 @@
 
 #include "node.h"
 #include "edge.h"
+#include <map>
 
 using namespace std;
 
@@ -166,19 +167,25 @@ class Graph {
 
         }
 
-        void dfsSupp(N nombre, bool visited[]){
-//              TODO
+        void dfsSupp(E nombre, map<node*,bool> visited){
+            node* tmp = buscarNodo(nombre);
+            visited[tmp] = true;
+            cout<<tmp->recibirData()<<" ";
+
+//            for(auto &i:tmp->edges) {
+//                for(auto &j:i[1])
+//                    cout<<j;
+//            }
         }
 
 
-        void dfs(N nombre){
-            // TODO
-            bool *visited = new bool[nodos];
-            for(int i =0 ;i<nodos;i++)
+        void dfs(E nombre){
+            map <node*, bool> visited;
+            for(auto &i:nodes)
                 visited[i] = false;
 
-//            for(int i =0 ;i<nodos;i++)
-//                cout<<visited[i]<<" ";
+            for(auto &i:visited)
+                cout<<i.first<<" "<<i.second<<endl;
 
             dfsSupp(nombre, visited);
         }
@@ -197,8 +204,9 @@ class Graph {
             // TODO
         }
 
-        void grades(){
-            // TODO
+        void grados(){
+            for(auto &i: nodes)
+                cout<<i->recibirData()<<": "<<i->edges.size()<<endl;
         }
 
         bool isDirected(){
