@@ -11,7 +11,7 @@ int main(int argc, char const *argv[]){
 	// grafo.print();
 
 	cout<<endl<<grafo.density()<<endl;
-    grafo.dfs(1);
+    grafo.dfs(0);
     cout<<endl;
     grafo.grados();
 
