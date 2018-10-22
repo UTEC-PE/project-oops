@@ -170,12 +170,12 @@ class Graph {
         void dfsSupp(E nombre, map<node*,bool> visited){
             node* tmp = buscarNodo(nombre);
             visited[tmp] = true;
-            cout<<tmp->recibirData()<<" ";
+            cout<<tmp->recibirData()<<" - ";
 
-//            for(auto &i:tmp->edges) {
-//                for(auto &j:i[1])
-//                    cout<<j;
-//            }
+           for(auto &i:tmp->edges) {
+               if(!visited[i->nodes[1]])
+                   dfsSupp(i->nodes[1]->recibirData(), visited);
+           }
         }
 
 
