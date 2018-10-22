@@ -13,6 +13,8 @@
 
 #include <map>
 
+#include <map>
+
 using namespace std;
 
 class Traits {
@@ -169,6 +171,7 @@ class Graph {
 
         }
 
+<<<<<<< HEAD
         void dfsSupp(E nombre, map<node*,bool> visited){
             node* tmp = buscarNodo(nombre);
             visited[tmp] = true;
@@ -188,6 +191,26 @@ class Graph {
 
             for(auto &i:visited)
                 cout<<i.first<<" "<<i.second<<endl;
+=======
+        void dfsSupp(N nombre, map<node*, bool> visited){
+//              TODO
+			
+				node* tmp = buscarNodo(nombre);
+				for(auto &i:tmp->edges)
+					cout<<i->nodes[1]->recibirData()<<" ";
+        }
+
+
+        void dfs(N nombre){
+            // TODO
+			map<node*, bool> visited;
+            //bool *visited = new bool[nodos];
+            for(auto &i:nodes)
+                visited[i] = false;
+
+/*            for(auto &i:visited)
+                cout<<i.second<<" ";*/
+>>>>>>> b45ba5fec604dbf341df2a0a6b04d03c208582bc
 
             dfsSupp(nombre, visited);
         }
