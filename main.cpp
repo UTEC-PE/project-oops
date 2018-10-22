@@ -4,7 +4,6 @@ using namespace std;
 
 int main(int argc, char const *argv[]){
 	graph grafo;
-<<<<<<< HEAD
 	grafo.leerArchivo("./texto.txt");
 	// grafo.print();
 	// cout << endl;
