@@ -11,6 +11,8 @@
 #include "edge.h"
 #include <map>
 
+#include <map>
+
 using namespace std;
 
 class Traits {
