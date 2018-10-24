@@ -284,9 +284,9 @@ class Graph {
                 auto set_v = v->buscarPadre();
 
                 if (set_u != set_v){
-                    nuevo_grafo.insertarNodo(it->second->nodes[0]->recibirData(),it->second->nodes[0]->recibirX(),it->second->nodes[0]->recibirY());
-                    nuevo_grafo.insertarNodo(it->second->nodes[1]->recibirData(),it->second->nodes[1]->recibirX(),it->second->nodes[1]->recibirY());
-                    nuevo_grafo.insertarArista(it->second->nodes[0]->recibirData(),it->second->nodes[1]->recibirData(),it->first,0);
+                    nuevo_grafo.insertarNodo(u->recibirData(),u->recibirX(),u->recibirY());
+                    nuevo_grafo.insertarNodo(v->recibirData(),v->recibirX(),v->recibirY());
+                    nuevo_grafo.insertarArista(u->recibirData(),v->recibirData(),it->first,0);
                     cout<<"{"<<u->recibirData()<<","<<v->recibirData()<<" :"<<it->first<<"}"<<" ";
                     Union(set_u,set_v);
                     mapaAristas.erase(mapaAristas.begin());

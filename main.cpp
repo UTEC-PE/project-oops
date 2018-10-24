@@ -9,10 +9,10 @@ int main(int argc, char const *argv[]){
 	cout << endl;
 	//grafo.removerArista(4,3);
 	//grafo.removerNodo(3);
-	graph grafoprim = grafo.prim(1);
-	grafoprim.print();
-	graph gkruskal = grafo.kruskal();
-	gkruskal.print();
+	//graph grafoprim = grafo.prim(1);
+	//grafoprim.print();
+	//graph gkruskal = grafo.kruskal();
+	//gkruskal.print();
 	//grafo.print();
 	return 0;
 }
