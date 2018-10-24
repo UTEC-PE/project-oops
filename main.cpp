@@ -4,12 +4,15 @@ using namespace std;
 
 int main(int argc, char const *argv[]){
 	graph grafo;
-	grafo.leerArchivo("texto.txt");
+	grafo.leerArchivo("grafo1.txt");
 	grafo.print();
 	cout << endl;
-	//grafo.removerArista(1,3);
-	grafo.removerNodo(4);
-	//grafo.prim();
-	grafo.print();
+	//grafo.removerArista(4,3);
+	//grafo.removerNodo(3);
+	graph grafoprim = grafo.prim(1);
+	grafoprim.print();
+	graph gkruskal = grafo.kruskal();
+	gkruskal.print();
+	//grafo.print();
 	return 0;
 }

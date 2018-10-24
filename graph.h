@@ -32,7 +32,8 @@ class Graph {
         typedef typename NodeSeq::iterator NodeIte;
         typedef typename EdgeSeq::iterator EdgeIte;
         
-        E nodos,aristas;
+        N nodos;
+        E aristas;
         bool directed;
 
         Graph(){
@@ -89,16 +90,27 @@ class Graph {
                 nodes.push_back(nuevoNodo);
                 nodos++;
             }else{
-                cout << "El nodo ya existe" << endl;
+                return;
             }
         }
 
-        void removerNodo(N data){//falta
+        void removerNodo(N data){
             node *nodo = buscarNodo(data);
-            /*for (ei = nodo->edges.begin(); ei != nodo->edges.end(); ++ei){
-                
-                removerArista(nodo->recibirData(),(*ei)->nodes[1]->recibirData());
-            }*/
+            if (nodo){
+                ei = nodo->edges.begin();
+                while (ei != nodo->edges.end()){
+                    removerArista(nodo->recibirData(),(*ei)->nodes[1]->recibirData());
+                    ei = nodo->edges.begin();    
+                }
+                for (int i = 0; i < nodes.size(); ++i){
+                    if (nodes[i]->recibirData() == data){
+                        nodes.erase(nodes.begin()+data);
+                    }
+                }
+                nodos--;
+            }else{
+                cout << "No existe el nodo" << endl;
+            }
         }
 
         edge *buscarArista(N inicio, N fin){
@@ -148,10 +160,9 @@ class Graph {
             for (ei = nodo1->edges.begin();ei!=nodo1->edges.end();ei++){
                 //cout<<"for"<<endl;
                 if ((*ei)->nodes[1]->recibirData() == nodo2->recibirData()){
-                    //cout<<(*ei)->recibirData()<<endl;
                     if ((*ei)->recibirDir() == 0){
                         x = 0;
-                    }
+                    } 
                     nodo1->edges.erase(ei);
                     //delete *ei;
                     break;
@@ -161,7 +172,7 @@ class Graph {
                 for (ei=nodo2->edges.begin();ei!=nodo2->edges.end();ei++){
                     //cout<<(*ei)->nodes[0]->recibirData()<<" "   <<nodo1->recibirData()<<endl;
                     if ((*ei)->nodes[1]->recibirData() == nodo1->recibirData()){
-                        //cout<<(*ei)->recibirData()<<endl;
+                        // cout<<(*ei)->nodes[0]->recibirData()<<"->"<<nodo1->recibirData()<<endl;
                         nodo2->edges.erase(ei);
                         //delete *ei;
                         break;
@@ -175,11 +186,7 @@ class Graph {
             for (ni = nodes.begin(); ni != nodes.end(); ni++){
                 cout << (*ni)->recibirData() << "-> ";
                 for (auto i: (*ni)->edges){
-                    if (i->nodes[0]->recibirData() == (*ni)->recibirData()){
-                        cout << i->nodes[1]->recibirData() /*<< ":" << i->recibirData()*/ << "  ";
-                    }else{
-                        cout << i->nodes[0]->recibirData() /*<< ":" << i->recibirData()*/ << "  ";
-                    }
+                    cout << i->nodes[1]->recibirData()<<":"<<i->recibirData()<<" ";
                 }
                 cout << endl;
             }
@@ -204,20 +211,92 @@ class Graph {
             return densidad;
         }
 
-        E prim(N nodo){
-            node *primerNodo = buscarNodo(nodo);
-            multimap<E,edge*> mapaArista;
-
+        self prim(N dato){
             if (isDirected() == 1){
                 cout << "Grafo dirigido no se puede usar Prim" << endl;
             }
+            node *nodo = buscarNodo(dato);
+            multimap<E,edge*> mapaAristas;
+            map<node*,bool> nodosVisitados;
+            self nuevo_grafo;
+            cout<<"Prim: ";
+            for (int i = 0; i < nodes.size(); i++){
+                nodosVisitados.insert(pair<node*,bool> (nodes[i],false));
+            }
+            for (auto i: nodo->edges){
+                mapaAristas.insert(pair<E,edge*> (i->recibirData(),i));
+            }
+            nodosVisitados[nodo] = true;
+            auto it = mapaAristas.begin();
+            while (it != mapaAristas.end()){
+                if (it->second->nodes[1] != nodo && nodosVisitados[it->second->nodes[1]] == false){
+                    nuevo_grafo.insertarNodo(it->second->nodes[0]->recibirData(),it->second->nodes[0]->recibirX(),it->second->nodes[0]->recibirY());
+                    nuevo_grafo.insertarNodo(it->second->nodes[1]->recibirData(),it->second->nodes[1]->recibirX(),it->second->nodes[1]->recibirY());
+                    nuevo_grafo.insertarArista(it->second->nodes[0]->recibirData(),it->second->nodes[1]->recibirData(),it->first,0);
+                    cout<<"{"<<it->second->nodes[0]->recibirData()<<","<<it->second->nodes[1]->recibirData()<<" :"<<it->first<<"}"<<" ";
+                    nodo = it->second->nodes[1];
+                    nodosVisitados[nodo] = true;
+                    mapaAristas.erase(it);
+                    for (auto i: nodo->edges){
+                        mapaAristas.insert(pair<E,edge*> (i->recibirData(),i));
+                    }
+                    it = mapaAristas.begin();
+                }else{
+                    mapaAristas.erase(it);
+                    it = mapaAristas.begin();
+                }                
+            }
+            cout<<endl;
+            return nuevo_grafo;          
         }
 
-        E kruskal(){
+        bool Union(node *nodo1,node *nodo2){       
+            nodo1->asignarPadre(nodo1);
+            nodo2->asignarPadre(nodo2);
+            if (nodo1->padre != nodo2->padre){
+                nodo1->padre->asignarPadre(nodo2);
+                return true;
+            }else{
+                return false;
+            }                
+        }
 
+        self kruskal(){
             if (isDirected() == 1){
                 cout << "Grafo dirigido no se puede usar Kruskal" << endl;
             }
+            multimap<E,edge*> mapaAristas;
+            self nuevo_grafo;
+            for (int i = 0; i < nodes.size(); i++){
+                for (auto it: nodes[i]->edges){
+                    mapaAristas.insert(pair<E,edge*> (it->recibirData(),it));
+                }
+            }
+            for (int i = 0; i < nodes.size(); i++){
+                nodes[i]->asignarPadre(nodes[i]);
+            }
+            cout<<"Kruskal: ";
+            while (mapaAristas.size()>0){
+                auto it = mapaAristas.begin();
+                auto u = it->second->nodes[0];
+                auto v = it->second->nodes[1];
+                auto set_u = u->buscarPadre();
+                auto set_v = v->buscarPadre();
+
+                if (set_u != set_v){
+                    nuevo_grafo.insertarNodo(it->second->nodes[0]->recibirData(),it->second->nodes[0]->recibirX(),it->second->nodes[0]->recibirY());
+                    nuevo_grafo.insertarNodo(it->second->nodes[1]->recibirData(),it->second->nodes[1]->recibirX(),it->second->nodes[1]->recibirY());
+                    nuevo_grafo.insertarArista(it->second->nodes[0]->recibirData(),it->second->nodes[1]->recibirData(),it->first,0);
+                    cout<<"{"<<u->recibirData()<<","<<v->recibirData()<<" :"<<it->first<<"}"<<" ";
+                    Union(set_u,set_v);
+                    mapaAristas.erase(mapaAristas.begin());
+                }
+                else{
+                    mapaAristas.erase(mapaAristas.begin());
+                }
+            }
+            cout<<endl;
+            return nuevo_grafo;
         }
 
         void grades(){
