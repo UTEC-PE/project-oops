@@ -7,6 +7,7 @@ int main(int argc, char const *argv[]){
 	grafo.leerArchivo("grafo1.txt");
 	grafo.print();
 	cout << endl;
+	//grafo.grades(4);
 	//grafo.removerArista(4,3);
 	//grafo.removerNodo(3);
 	//graph grafoprim = grafo.prim(1);

@@ -62,14 +62,19 @@ class Graph {
                 insertarNodo(i,x,y);
             }
             while (texto >> inicio >> fin >> peso >> direccion){
+                if(direccion == 1){
+                    directed = 1;
+                    //cout << directed << endl;
+                }
                 insertarArista(inicio,fin,peso,direccion);
             }
                 //cout << directed << endl;
-            if(direccion == 1){
-                directed = 1;
-                //cout << directed << endl;
-            }
+            
             texto.close();
+        }
+        
+        bool isDirected(){
+            return directed;
         }
 
         node *buscarNodo(N nombre){
@@ -102,6 +107,17 @@ class Graph {
                     removerArista(nodo->recibirData(),(*ei)->nodes[1]->recibirData());
                     ei = nodo->edges.begin();    
                 }
+                if (isDirected() == 1){
+                    for (ni = nodes.begin(); ni != nodes.end(); ni++){
+                        for (ei = (*ni)->edges.begin(); ei != (*ni)->edges.end(); ei++){
+                            if ((*ei)->nodes[1]->recibirData() == data){
+                                (*ni)->edges.remove(*ei);
+                                break;
+                            }
+                        }
+                    }
+                }
+
                 for (int i = 0; i < nodes.size(); ++i){
                     if (nodes[i]->recibirData() == data){
                         nodes.erase(nodes.begin()+data);
@@ -186,7 +202,7 @@ class Graph {
             for (ni = nodes.begin(); ni != nodes.end(); ni++){
                 cout << (*ni)->recibirData() << "-> ";
                 for (auto i: (*ni)->edges){
-                    cout << i->nodes[1]->recibirData()<<":"<<i->recibirData()<<" ";
+                    cout << i->nodes[1]->recibirData()<</*":"<<i->recibirData()<<*/" ";
                 }
                 cout << endl;
             }
@@ -214,6 +230,7 @@ class Graph {
         self prim(N dato){
             if (isDirected() == 1){
                 cout << "Grafo dirigido no se puede usar Prim" << endl;
+                throw "Error";
             }
             node *nodo = buscarNodo(dato);
             multimap<E,edge*> mapaAristas;
@@ -264,6 +281,7 @@ class Graph {
         self kruskal(){
             if (isDirected() == 1){
                 cout << "Grafo dirigido no se puede usar Kruskal" << endl;
+                throw "Error";
             }
             multimap<E,edge*> mapaAristas;
             self nuevo_grafo;
@@ -299,16 +317,17 @@ class Graph {
             return nuevo_grafo;
         }
 
-        void grades(){
-
+        void grades(N nodo){
+            node *bNodo = buscarNodo(nodo);
+            int grado = 0;
+            for (auto i: bNodo->edges){
+                grado++;
+            }
+            cout<<grado<<endl;
         }
 
         bool isConnect(){
 
-        }
-
-        bool isDirected(){
-            return directed;
         }
 
         bool isStronglyConnected(){
