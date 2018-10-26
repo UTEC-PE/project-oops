@@ -5,7 +5,7 @@ using namespace std;
 int main(int argc, char const *argv[]){
 	graph grafo;
 
-	grafo.leerArchivo("grafo3.txt");
+	grafo.leerArchivo("grafo1.txt");
 	grafo.print();
 	cout << endl;
 //	grafo.grado(3);
@@ -17,8 +17,10 @@ int main(int argc, char const *argv[]){
 	//gkruskal.print();
 	//grafo.print();
 	grafo.DFS(3);
+	int count = 0;
 	grafo.BFS(4);
 	grafo.isBipartite();
 	grafo.grados();
+	cout<<grafo.isConnected();
 	return 0;
 }

@@ -186,6 +186,31 @@ class Graph {
             }
         }
 
+        void countBFSnodes(N nombre,int* cantNodes){
+            cout<<"BFS desde "<<nombre<<":"<<endl;
+            map<node*, bool> visited;
+            //  Set all nodes to non visited
+            for(auto &i:nodes)
+                visited[i] = false;
+
+            queue<node*> theQueue;
+            visited[buscarNodo(nombre)] = true;
+            theQueue.push(buscarNodo(nombre));
+
+            while(!theQueue.empty()){
+                node* tmp = theQueue.front();
+                theQueue.pop();
+                for(auto&i:tmp->edges){
+                    if(!visited[i->nodes[1]]){
+                        visited[i->nodes[1]] = true;
+                        cout<<tmp->recibirData()<<" -> "<<i->nodes[1]->recibirData()<<endl;
+                        ++(*cantNodes);
+                        theQueue.push(i->nodes[1]);
+                    }
+                }
+            }
+        }
+
         void BFS(N nombre){
             cout<<"BFS desde "<<nombre<<":"<<endl;
             map<node*, bool> visited;
@@ -200,7 +225,6 @@ class Graph {
             while(!theQueue.empty()){
                 node* tmp = theQueue.front();
                 theQueue.pop();
-
                 for(auto&i:tmp->edges){
                     if(!visited[i->nodes[1]]){
                         visited[i->nodes[1]] = true;
@@ -352,8 +376,16 @@ class Graph {
 			}
         }
 
-        bool isConnect(){
-
+        bool isConnected(){
+            for(auto&i:nodes){
+                int count=1;
+                countBFSnodes(i->recibirData(),&count);
+                if(count!=nodes.size()){
+                    cout<<count<<endl;
+                    return false;
+                }
+            }
+            return true;
         }
 
         bool isStronglyConnected(){
@@ -380,25 +412,25 @@ class Graph {
             return true;
         }
 
-	bool colorNeighbors(node* clrNode,map<node*, int>* clrMap){
-            if((*clrMap)[clrNode]==1){
-                for(auto i: clrNode->edges){
-                    if((*clrMap)[i->nodes[1]]!=1)
-                        (*clrMap)[i->nodes[1]]=-1;
-                    else
-                        return false;
+    	bool colorNeighbors(node* clrNode,map<node*, int>* clrMap){
+                if((*clrMap)[clrNode]==1){
+                    for(auto i: clrNode->edges){
+                        if((*clrMap)[i->nodes[1]]!=1)
+                            (*clrMap)[i->nodes[1]]=-1;
+                        else
+                            return false;
+                    }
                 }
-            }
-            if((*clrMap)[clrNode]==-1){
-                for(auto i: clrNode->edges){
-                    if((*clrMap)[i->nodes[1]]!=-1)
-                        (*clrMap)[i->nodes[1]]=1;
-                    else
-                        return false;
+                if((*clrMap)[clrNode]==-1){
+                    for(auto i: clrNode->edges){
+                        if((*clrMap)[i->nodes[1]]!=-1)
+                            (*clrMap)[i->nodes[1]]=1;
+                        else
+                            return false;
+                    }
                 }
+                return true;
             }
-            return true;
-        }
 
     private:
         NodeSeq nodes;
