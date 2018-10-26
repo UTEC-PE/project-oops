@@ -125,7 +125,7 @@ class Graph {
             node *buscador1 = buscarNodo(nodoInicial);
             node *buscador2 = buscarNodo(nodoFinal);
             if (buscador1 && buscador2){
-                if (isDirected() == 0){
+                if (direccion == 0){
                     if (buscarArista(buscador1->recibirData(),buscador2->recibirData()) || buscarArista(buscador2->recibirData(),buscador1->recibirData())){
                         throw "Arista existente";
                     }
@@ -139,6 +139,7 @@ class Graph {
                     }
                     edge *nuevaArista = new edge(buscador1,buscador2,peso,direccion);
                     buscador1->edges.push_back(nuevaArista);
+                    directed = true;
                 }
                 aristas++;                
             }else{
@@ -325,26 +326,23 @@ class Graph {
         }
 
         void grados(){
-            /*node *bNodo = buscarNodo(nodo);
-            int grado = 0;
-            for (auto i: bNodo->edges){
-                grado++;
-            }
-            cout<<grado<<endl;*/
-
-			if(this->isDirected()){
-				cout<<"El grafo es dirigido; los grados son:"<<endl;
-				map<node*,unsigned int> gradoEntrada;
-				for(auto&i:nodes)
-					gradoEntrada[i]=0;
-				for(auto&i:nodes){
-					for(auto&j:i->edges){
-						gradoEntrada[j->nodes[1]]++;
-						}
-					}
-				for(auto&k:gradoEntrada){
-					cout<<k.first->recibirData()<<" "<<k.second<<endl;
+            if(this->isDirected()){
+                map<node*,unsigned int> gradoEntrada;
+                for(auto&i:nodes)
+                    gradoEntrada[i]=0;
+                for(auto&i:nodes){
+                    for(auto&j:i->edges){
+                        gradoEntrada[j->nodes[1]]++;
+                        }
+                    }
+				cout<<"El grafo es dirigido; los grados de entrada son:"<<endl;
+                for(auto&k:gradoEntrada){
+					cout<<k.first->recibirData()<<" -> "<<k.second<<endl;
 				}
+                cout<<"Los grados de salida son:"<<endl;
+                for(auto&i:nodes){
+                    cout<<i->recibirData()<<" -> "<<i->edges.size()<<endl;
+                }
 			}
 			else{
 				cout<<"El grafo no es dirigido; los grados son:"<<endl;
