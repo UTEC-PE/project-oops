@@ -5,7 +5,7 @@ using namespace std;
 int main(int argc, char const *argv[]){
 	graph grafo;
 
-	grafo.leerArchivo("grafo1.txt");
+	grafo.leerArchivo("grafo3.txt");
 	grafo.print();
 	cout << endl;
 //	grafo.grado(3);
