@@ -10,6 +10,7 @@ class Node {
         typedef typename G::EdgeSeq EdgeSeq;
 
         EdgeSeq edges;
+        Node<G> *padre;
 
         Node(N nombre,double x,double y){
             data = nombre;
@@ -21,10 +22,29 @@ class Node {
             return data;
         }
 
+        Node *buscarPadre(){
+            if (this != this->padre)
+                this->padre = this->padre->buscarPadre();
+            return this->padre;
+        }
+
+        void asignarPadre(Node<G> *nodo){
+            this->padre = nodo;
+        }
+
+        double recibirX(){
+            return x;
+        }
+
+        double recibirY(){
+            return y;
+        }
+
     private:
         N data;
         double x;
-        double y; 
+        double y;
+        bool visitado; 
 };
 
 #endif
