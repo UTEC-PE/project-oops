@@ -17,7 +17,6 @@ int main(int argc, char const *argv[]){
 	//gkruskal.print();
 	//grafo.print();
 	grafo.DFS(3);
-	int count = 0;
 	grafo.BFS(4);
 	grafo.isBipartite();
 	grafo.grados();
