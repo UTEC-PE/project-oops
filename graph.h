@@ -361,7 +361,11 @@ class Graph {
             return true;
         }
 
+<<<<<<< HEAD
         bool colorNeighbors(node* clrNode,map<node*, int>* clrMap){
+=======
+	bool colorNeighbors(node* clrNode,map<node*, int>* clrMap){
+>>>>>>> fsocualaya
             if((*clrMap)[clrNode]==1){
                 for(auto i: clrNode->edges){
                     if((*clrMap)[i->nodes[1]]!=1)
