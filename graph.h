@@ -324,13 +324,34 @@ class Graph {
             return nuevo_grafo;
         }
 
-        void grado(N nodo){
-            node *bNodo = buscarNodo(nodo);
+        void grados(){
+            /*node *bNodo = buscarNodo(nodo);
             int grado = 0;
             for (auto i: bNodo->edges){
                 grado++;
             }
-            cout<<grado<<endl;
+            cout<<grado<<endl;*/
+
+			if(this->isDirected()){
+				cout<<"El grafo es dirigido; los grados son:"<<endl;
+				map<node*,unsigned int> gradoEntrada;
+				for(auto&i:nodes)
+					gradoEntrada[i]=0;
+				for(auto&i:nodes){
+					for(auto&j:i->edges){
+						gradoEntrada[j->nodes[1]]++;
+						}
+					}
+				for(auto&k:gradoEntrada){
+					cout<<k.first->recibirData()<<" "<<k.second<<endl;
+				}
+			}
+			else{
+				cout<<"El grafo no es dirigido; los grados son:"<<endl;
+				for(auto &i:nodes){
+					cout<<i->recibirData()<<" -> "<<i->edges.size()<<endl;
+				}
+			}
         }
 
         bool isConnect(){
@@ -360,7 +381,6 @@ class Graph {
             cout<<"El grafo es bipartito :)"<<endl;
             return true;
         }
-
 
 	bool colorNeighbors(node* clrNode,map<node*, int>* clrMap){
             if((*clrMap)[clrNode]==1){

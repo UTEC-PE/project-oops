@@ -19,5 +19,6 @@ int main(int argc, char const *argv[]){
 	grafo.DFS(3);
 	grafo.BFS(4);
 	grafo.isBipartite();
+	grafo.grados();
 	return 0;
 }
