@@ -6,12 +6,10 @@
 #include <fstream>
 #include <string>
 #include <iostream>
+#include <map>
 
 #include "node.h"
 #include "edge.h"
-
-
-#include <map>
 
 using namespace std;
 
@@ -35,31 +33,24 @@ class Graph {
         typedef typename NodeSeq::iterator NodeIte;
         typedef typename EdgeSeq::iterator EdgeIte;
         
-<<<<<<< HEAD
-        E nodos, aristas;
-=======
         N nodos;
         E aristas;
->>>>>>> develop
         bool directed;
 
         Graph(){
             nodos = 0;
             aristas = 0;
             directed = 0;
-<<<<<<< HEAD
-=======
-        }
+            }
 
         ~Graph(){
             for (ni = nodes.begin(); ni != nodes.end(); ++ni){
                 for (auto i: (*ni)->edges){
                     delete i;
-                }
+                    }
                 delete *ni;
+                }
             }
->>>>>>> develop
-        }
 
         void leerArchivo(string archivo){
             ifstream texto(archivo);
@@ -77,38 +68,18 @@ class Graph {
                 }
                 texto.close();
             }
-<<<<<<< HEAD
             else{
                 cout<<"Error opening file";
                 return;
             }
-=======
-            while (texto >> inicio >> fin >> peso >> direccion){
-                if(direccion == 1){
-                    directed = 1;
-                    //cout << directed << endl;
-                }
-                insertarArista(inicio,fin,peso,direccion);
-            }
-                //cout << directed << endl;
-            
-            texto.close();
->>>>>>> develop
         }
         
         bool isDirected(){
             return directed;
         }
 
-<<<<<<< HEAD
-        bool buscarArista(E nodeStart, E nodeEnd){
 
-        }
-
-        void insertarNodo(E nombre,float x, float y){
-=======
         void insertarNodo(N nombre,float x, float y){
->>>>>>> develop
             node *buscador = buscarNodo(nombre);
             if(!buscador){
                 node *nuevoNodo = new node(nombre,x,y); 
@@ -153,15 +124,6 @@ class Graph {
             node *buscador1 = buscarNodo(nodoInicial);
             node *buscador2 = buscarNodo(nodoFinal);
             if (buscador1 && buscador2){
-<<<<<<< HEAD
-                edge *nuevaArista = new edge(nodes[nodoInicial],nodes[nodoFinal],peso,direccion);
-                nodes[nodoInicial]->edges.push_back(nuevaArista);
-                if (direccion == 0){
-                    edge *nuevaArista2 = new edge(nodes[nodoFinal],nodes[nodoInicial],peso,direccion);
-                    nodes[nodoFinal]->edges.push_back(nuevaArista);
-                } else
-                    directed=1;
-=======
                 if (isDirected() == 0){
                     if (buscarArista(buscador1->recibirData(),buscador2->recibirData()) || buscarArista(buscador2->recibirData(),buscador1->recibirData())){
                         throw "Arista existente";
@@ -177,7 +139,6 @@ class Graph {
                     edge *nuevaArista = new edge(buscador1,buscador2,peso,direccion);
                     buscador1->edges.push_back(nuevaArista);
                 }
->>>>>>> develop
                 aristas++;                
             }else{
                 cout << "Uno o más nodos no existentes" << endl;
@@ -200,18 +161,6 @@ class Graph {
                 }
             }
             if (x == 0){
-<<<<<<< HEAD
-                ei = nodo2->edges.begin();
-                for (ei;ei!=nodo2->edges.end();++ei){
-                //cout<<(*ei)->nodes[1]->recibirData()<<" "   <<nodo1->recibirData()<<endl;
-                if ((*ei)->nodes[0]->recibirData() == nodo1->recibirData()){
-                    //cout<<(*ei)->recibirData()<<endl;
-                    nodo2->edges.erase(ei);
-                    delete *ei;
-                    break;
-                    }
-                }
-=======
                 for (ei=nodo2->edges.begin();ei!=nodo2->edges.end();ei++){
                     //cout<<(*ei)->nodes[0]->recibirData()<<" "   <<nodo1->recibirData()<<endl;
                     if ((*ei)->nodes[1]->recibirData() == nodo1->recibirData()){
@@ -221,7 +170,6 @@ class Graph {
                         break;
                     }
                 }    
->>>>>>> develop
             }
             aristas--;
         }
@@ -236,14 +184,10 @@ class Graph {
             }
         }
 
-<<<<<<< HEAD
-        // vector<<pair>> bfs(){} BFS Y DFS PUEDEN DEVOLVER LISTAS
-
         void bfs(N nombre){
-            // TODO
 
         }
-
+        
         void dfsSupp(E nombre, map<node*,bool> visited){
             node* tmp = buscarNodo(nombre);
             visited[tmp] = true;
@@ -265,35 +209,6 @@ class Graph {
                 cout<<i.first<<" "<<i.second<<endl;
 
             dfsSupp(nombre, visited);
-        }
-
-        float density(){
-            if(this->isDirected())
-                return (float)aristas/(nodos*(nodos-1));
-            return 2*(float)aristas/(nodos*(nodos-1));
-        }
-
-        E prim(N nombre){
-            // TODO
-        }
-
-        E kruskal(){
-            // TODO
-        }
-
-        void grados(){
-            for(auto &i: nodes)
-                cout<<i->recibirData()<<": "<<i->edges.size()<<endl;
-        }
-
-        bool isDirected(){
-            return directed;
-=======
-        void bfs(N nombre){
-
-        }
-        void dfs(N nombre){
-
         }
 
         float density(float cota){
@@ -405,7 +320,6 @@ class Graph {
                 grado++;
             }
             cout<<grado<<endl;
->>>>>>> develop
         }
 
         bool isConnect(){
@@ -419,10 +333,6 @@ class Graph {
         bool isBipartite(){
 
         }
-<<<<<<< HEAD
-=======
-        //tipo y gradfio vertices
->>>>>>> develop
 
     private:
         NodeSeq nodes;
