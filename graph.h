@@ -21,31 +21,6 @@ class Traits {
 
 template <typename Tr>
 class Graph {
-	node *buscarNodo(N nombre){
-            node *buscador = NULL;
-            for (int i = 0; i < nodes.size(); ++i){
-                if (nombre == nodes[i]->recibirData()){
-                    buscador = nodes[i];
-                    break;
-                }
-            }
-            return buscador;
-        }
-
-    edge *buscarArista(N inicio, N fin){
-            node *nodo = buscarNodo(inicio);
-            edge *arista = NULL;
-            for (auto i: nodo->edges){
-                if (isDirected() == 1 && i->nodes[1]->recibirData() == fin){
-                    arista = i;
-                    break;
-                }else if (isDirected() == 0 && (i->nodes[0]->recibirData() == fin || i->nodes[1]->recibirData() == fin)){
-                    arista = i;
-                    break;
-                }
-            }
-            return arista;
-        }
 
     public:
         typedef Graph<Tr> self;
@@ -317,7 +292,7 @@ class Graph {
             return nuevo_grafo;
         }
 
-        void grades(N nodo){
+        void grado(N nodo){
             node *bNodo = buscarNodo(nodo);
             int grado = 0;
             for (auto i: bNodo->edges){
@@ -343,6 +318,32 @@ class Graph {
         NodeSeq nodes;
         NodeIte ni;
         EdgeIte ei;
+
+        node *buscarNodo(N nombre){
+            node *buscador = NULL;
+            for (int i = 0; i < nodes.size(); ++i){
+                if (nombre == nodes[i]->recibirData()){
+                    buscador = nodes[i];
+                    break;
+                }
+            }
+            return buscador;
+        }
+
+    	edge *buscarArista(N inicio, N fin){
+            node *nodo = buscarNodo(inicio);
+            edge *arista = NULL;
+            for (auto i: nodo->edges){
+                if (isDirected() == 1 && i->nodes[1]->recibirData() == fin){
+                    arista = i;
+                    break;
+                }else if (isDirected() == 0 && (i->nodes[0]->recibirData() == fin || i->nodes[1]->recibirData() == fin)){
+                    arista = i;
+                    break;
+                }
+            }
+            return arista;
+        }
 };
 
 typedef Graph<Traits> graph;
