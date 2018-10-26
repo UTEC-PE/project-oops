@@ -7,6 +7,7 @@
 #include <string>
 #include <iostream>
 #include <map>
+#include <queue>
 
 #include "node.h"
 #include "edge.h"
@@ -184,31 +185,41 @@ class Graph {
             }
         }
 
-        void bfs(N nombre){
+        void BFS(N nombre){
+            cout<<"BFS desde "<<nombre<<":"<<endl;
+            map<node*, bool> visited;
+            //  Set all nodes to non visited
+            for(auto &i:nodes)
+                visited[i] = false;
 
+            queue<node*> theQueue;
+            visited[buscarNodo(nombre)] = true;
+            theQueue.push(buscarNodo(nombre));
+
+            while(!theQueue.empty()){
+                node* tmp = theQueue.front();
+                theQueue.pop();
+
+                for(auto&i:tmp->edges){
+                    if(!visited[i->nodes[1]]){
+                        visited[i->nodes[1]] = true;
+                        cout<<tmp->recibirData()<<" -> "<<i->nodes[1]->recibirData()<<endl;
+                        theQueue.push(i->nodes[1]);
+                    }
+                }
+            }
         }
-        
-        void dfsSupp(E nombre, map<node*,bool> visited){
-            node* tmp = buscarNodo(nombre);
-            visited[tmp] = true;
-            cout<<tmp->recibirData()<<" - ";
 
-           for(auto &i:tmp->edges) {
-               if(!visited[i->nodes[1]])
-                   dfsSupp(i->nodes[1]->recibirData(), visited);
-           }
-        }
-
-
-        void dfs(E nombre){
+        void DFS(N nombre){
+            cout<<"DFS desde "<<nombre<<":"<<endl;
             map <node*, bool> visited;
             for(auto &i:nodes)
                 visited[i] = false;
 
-            for(auto &i:visited)
-                cout<<i.first<<" "<<i.second<<endl;
+            node* nm = buscarNodo(nombre);
 
-            dfsSupp(nombre, visited);
+            realDFS(nm,&visited);
+            cout<<endl;
         }
 
         float density(float cota){
@@ -363,6 +374,16 @@ class Graph {
                 }
             }
             return arista;
+        }
+
+        void realDFS(node* nombre, map<node*,bool>* visited){
+            (*visited)[nombre]= true;
+            for(auto& i:nombre->edges) {
+                if(!((*visited)[i->nodes[1]])) {
+                    cout<<nombre->recibirData()<<" -> "<<i->nodes[1]->recibirData()<<endl;
+                    realDFS(i->nodes[1],visited);
+                }
+            }
         }
 };
 
