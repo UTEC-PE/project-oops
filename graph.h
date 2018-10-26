@@ -21,6 +21,32 @@ class Traits {
 
 template <typename Tr>
 class Graph {
+	node *buscarNodo(N nombre){
+            node *buscador = NULL;
+            for (int i = 0; i < nodes.size(); ++i){
+                if (nombre == nodes[i]->recibirData()){
+                    buscador = nodes[i];
+                    break;
+                }
+            }
+            return buscador;
+        }
+
+    edge *buscarArista(N inicio, N fin){
+            node *nodo = buscarNodo(inicio);
+            edge *arista = NULL;
+            for (auto i: nodo->edges){
+                if (isDirected() == 1 && i->nodes[1]->recibirData() == fin){
+                    arista = i;
+                    break;
+                }else if (isDirected() == 0 && (i->nodes[0]->recibirData() == fin || i->nodes[1]->recibirData() == fin)){
+                    arista = i;
+                    break;
+                }
+            }
+            return arista;
+        }
+
     public:
         typedef Graph<Tr> self;
         typedef Node<self> node;
@@ -77,17 +103,6 @@ class Graph {
             return directed;
         }
 
-        node *buscarNodo(N nombre){
-            node *buscador = NULL;
-            for (int i = 0; i < nodes.size(); ++i){
-                if (nombre == nodes[i]->recibirData()){
-                    buscador = nodes[i];
-                    break;
-                }
-            }
-            return buscador;
-        }
-
         void insertarNodo(N nombre,float x, float y){
             node *buscador = buscarNodo(nombre);
             if(!buscador){
@@ -127,21 +142,6 @@ class Graph {
             }else{
                 cout << "No existe el nodo" << endl;
             }
-        }
-
-        edge *buscarArista(N inicio, N fin){
-            node *nodo = buscarNodo(inicio);
-            edge *arista = NULL;
-            for (auto i: nodo->edges){
-                if (isDirected() == 1 && i->nodes[1]->recibirData() == fin){
-                    arista = i;
-                    break;
-                }else if (isDirected() == 0 && (i->nodes[0]->recibirData() == fin || i->nodes[1]->recibirData() == fin)){
-                    arista = i;
-                    break;
-                }
-            }
-            return arista;
         }
 
         void insertarArista(N nodoInicial,N nodoFinal,N peso,bool direccion){
