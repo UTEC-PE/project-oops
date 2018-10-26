@@ -342,7 +342,43 @@ class Graph {
         }
 
         bool isBipartite(){
+            map<node*, int> colorMap;
 
+            for(auto &i: nodes)
+                colorMap[i] = 0;
+
+            colorMap[nodes[0]] = 1;
+
+            for(auto &i:nodes)
+                if(!colorNeighbors(i,&colorMap)){
+                    cout<<"El grafo no es bipartito. El nodo "<<i->recibirData()<<" da error"<<endl;
+                    return false;
+            }
+
+//            for(auto &i: colorMap)
+//                cout<<i.first->recibirData()<<" "<<i.second<<endl;
+            cout<<"El grafo es bipartito :)"<<endl;
+            return true;
+        }
+
+	bool colorNeighbors(node* clrNode,map<node*, int>* clrMap){
+            if((*clrMap)[clrNode]==1){
+                for(auto i: clrNode->edges){
+                    if((*clrMap)[i->nodes[1]]!=1)
+                        (*clrMap)[i->nodes[1]]=-1;
+                    else
+                        return false;
+                }
+            }
+            if((*clrMap)[clrNode]==-1){
+                for(auto i: clrNode->edges){
+                    if((*clrMap)[i->nodes[1]]!=-1)
+                        (*clrMap)[i->nodes[1]]=1;
+                    else
+                        return false;
+                }
+            }
+            return true;
         }
 
     private:

@@ -18,5 +18,6 @@ int main(int argc, char const *argv[]){
 	//grafo.print();
 	grafo.DFS(3);
 	grafo.BFS(4);
+	grafo.isBipartite();
 	return 0;
 }
