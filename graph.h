@@ -65,6 +65,10 @@ class Graph {
                     insertarNodo(i,x,y);
                 }
                 while (texto >> inicio >> fin >> peso >> direccion){
+                    if(direccion == 1){
+                        directed = 1;
+                        //cout << directed << endl;
+                    }
                     insertarArista(inicio,fin,peso,direccion);
                 }
                 texto.close();
@@ -180,14 +184,13 @@ class Graph {
             for (ni = nodes.begin(); ni != nodes.end(); ni++){
                 cout << (*ni)->recibirData() << "-> ";
                 for (auto i: (*ni)->edges){
-                    cout << i->nodes[1]->recibirData()<</*":"<<i->recibirData()<<*/" ";
+                    cout << i->nodes[1]->recibirData()<<":"<<i->recibirData()<<" ";
                 }
                 cout << endl;
             }
         }
 
         void countBFSnodes(N nombre,int* cantNodes){
-            cout<<"BFS desde "<<nombre<<":"<<endl;
             map<node*, bool> visited;
             //  Set all nodes to non visited
             for(auto &i:nodes)
@@ -203,7 +206,6 @@ class Graph {
                 for(auto&i:tmp->edges){
                     if(!visited[i->nodes[1]]){
                         visited[i->nodes[1]] = true;
-                        cout<<tmp->recibirData()<<" -> "<<i->nodes[1]->recibirData()<<endl;
                         ++(*cantNodes);
                         theQueue.push(i->nodes[1]);
                     }
@@ -381,7 +383,7 @@ class Graph {
                 int count=1;
                 countBFSnodes(i->recibirData(),&count);
                 if(count!=nodes.size()){
-                    cout<<count<<endl;
+                    //cout<<count<<endl;
                     return false;
                 }
             }
