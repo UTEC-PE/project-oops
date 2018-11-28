@@ -595,14 +595,17 @@ class Graph {
             distancia[inicio] = 0;
             predecesor[inicio] = inicio->recibirData();
 
-            for (ni = nodes.begin(); ni != nodes.end(); ni++){
-                for (auto i: (*ni)->edges){
-                    if (distancia[i->nodes[0]] + i->recibirData() < distancia[i->nodes[1]]){
-                        distancia[i->nodes[1]] = distancia[i->nodes[0]] + i->recibirData();
-                        predecesor[i->nodes[1]] = i->nodes[0]->recibirData();
+            for (int it = 0; it < nodes.size()-1; ++it){
+                for (ni = nodes.begin(); ni != nodes.end(); ni++){
+                    for (auto i: (*ni)->edges){
+                        if (distancia[i->nodes[0]] + i->recibirData() < distancia[i->nodes[1]]){
+                            distancia[i->nodes[1]] = distancia[i->nodes[0]] + i->recibirData();
+                            predecesor[i->nodes[1]] = i->nodes[0]->recibirData();
+                        }
                     }
                 }
             }
+            
 
             for (int i = 0; i < nodes.size(); ++i){
                 for (auto j: nodes[i]->edges){

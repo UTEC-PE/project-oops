@@ -22,7 +22,7 @@ int main(int argc, char const *argv[]){
 	graph grafo;
 	thread threads[NUM_THREADS];
 
-	grafo.leerArchivo("grafo1.txt");
+	grafo.leerArchivo("grafo5.txt");
 
 	grafo.print();
 	cout << endl;
@@ -30,22 +30,19 @@ int main(int argc, char const *argv[]){
 	//gbfs.print();
 	//graph as = grafo.A_Star(0,4);
 	//as.print();
-	//threads[0] = thread(printA_star,grafo,0,8);
-	
+
+	/*
 	graph* test = new graph();
 	test->leerArchivo("grafo1.txt");
 	graphs.push_back(test);
-	/*thread first = thread(printA_star, 0, 0, 8);
-	first.join();
-	thread second = thread(printA_star, 0,0,5);
-	second.join();*/
 
 	threads[0] = thread(printA_star,0,0,8);
 	threads[1] = thread(printA_star,0,0,5);
 	for(int i = 0; i < NUM_THREADS;i++){
 		threads[i].join();
-	}
-	//(grafo.A_Star(0,8)).print();
+	}*/
+
+	//(grafo.A_Star(8,2)).print();
 	//grafo.BellmanFord(0);
 	return 0;
 }
