@@ -17,10 +17,19 @@ int main(int argc, char const *argv[]){
 	//graph gkruskal = grafo.kruskal();
 	//gkruskal.print();
 	//grafo.print();
+<<<<<<< HEAD
 	//grafo.DFS(4);
 	//grafo.BFS(4);
 	//grafo.isBipartite();
 	//grafo.grados();
 	//cout<<grafo.isConnected()<<endl;
+=======
+//	grafo.DFS(3);
+//	grafo.BFS(4);
+//	grafo.isBipartite();
+//	grafo.grados();
+//	cout<<grafo.isConnected();
+//	grafo.FloydWarshall();
+>>>>>>> fsocualaya
 	return 0;
 }

@@ -434,6 +434,36 @@ class Graph {
                 return true;
             }
 
+        std::vector<std::vector<int>> FloydWarshall(){
+            std::vector<std::vector<int>> shortDistances(nodos, vector<int> (nodos, 0));
+
+            for(int i=0;i<nodos;i++){
+                for(int j=0;j<nodos;j++){
+                    if(i!=j)
+                    shortDistances[i][j] = 99999;
+                }
+            }
+
+            for(auto i: nodes){
+                for(auto j:i->edges){
+                    shortDistances[i->recibirData()][j->nodes[1]->recibirData()] = j->recibirData();
+                }
+            }
+
+
+            for(int k=0;k<nodos;k++){
+                for(int i=0;i<nodos;i++){
+                    for(int j=0;j<nodos;j++){
+                        int ds= shortDistances[i][k] + shortDistances[k][j];
+                        if(shortDistances[i][j]>ds and ds != 0)
+                            shortDistances[i][j] = ds;
+                    }
+                }
+            }
+
+            return shortDistances;
+        }
+
     private:
         NodeSeq nodes;
         NodeIte ni;
@@ -474,6 +504,9 @@ class Graph {
                 }
             }
         }
+
+
+
 };
 
 typedef Graph<Traits> graph;
