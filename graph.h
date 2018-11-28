@@ -48,15 +48,6 @@ class Graph {
             directed = 0;
         }
 
-        ~Graph(){
-            for (ni = nodes.begin(); ni != nodes.end(); ++ni){
-                for (auto i: (*ni)->edges){
-                    delete i;
-                    }
-                delete *ni;
-                }
-            }
-
         void leerArchivo(string archivo){
             ifstream texto(archivo);
             if(texto.is_open()){
@@ -621,6 +612,14 @@ class Graph {
 
             return distancia,predecesor;
         }
+        ~Graph(){
+            for (ni = nodes.begin(); ni != nodes.end(); ++ni){
+                for (auto i: (*ni)->edges){
+                    delete i;
+                    }
+                delete *ni;
+                }
+        }
 
         vector<vector<int>> FloydWarshall(){
             vector<vector<int>> shortDistances(nodos, vector<int> (nodos, 0));
@@ -738,9 +737,6 @@ class Graph {
                 }
             }
         }
-
-
-
 };
 
 typedef Graph<Traits> graph;

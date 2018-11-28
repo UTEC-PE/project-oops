@@ -5,7 +5,7 @@
 #include "aux.h"
 using namespace std;
 
-#define NUM_THREADS 2
+#define NUM_THREADS 4
 
 vector<graph*> graphs;
 mutex mtx;
@@ -23,7 +23,7 @@ int main(int argc, char const *argv[]){
 	graph grafo;
 	thread threads[NUM_THREADS];
 
-	grafo.leerArchivo("grafo2.txt");
+	grafo.leerArchivo("grafo5.txt");
 	
 	grafo.print();
 	cout << endl;
@@ -32,24 +32,31 @@ int main(int argc, char const *argv[]){
 	//graph as = grafo.A_Star(0,4);
 	//as.print();
 
-	/*
-	graph* test = new graph();
+	
+	/*graph* test = new graph();
 	test->leerArchivo("grafo1.txt");
 	graphs.push_back(test);
 
-	threads[0] = thread(printA_star,0,0,8);
-	threads[1] = thread(printA_star,0,0,5);
+	threads[0] = thread(printA_star,0,0,3);
+	threads[1] = thread(printA_star,0,0,1);
+	threads[2] = thread(printA_star,0,0,2);
+	threads[3] = thread(printA_star,0,0,5);
 	for(int i = 0; i < NUM_THREADS;i++){
 		threads[i].join();
 	}*/
 
 	// (grafo.A_Star(8,2)).print();
 	// grafo.BellmanFord(0);
-	cout<<"******** Floyd Warshall ********"<<endl;
-	imprimirMatriz(grafo.FloydWarshall());
-	cout<<endl;
-	cout<<"********    Dijkstra    ********"<<endl;
-	imprimirVector(grafo.Dijkstra(0));
-	cout<<endl;
+	
+	// cout<<"******** Floyd Warshall ********"<<endl;
+	// imprimirMatriz(grafo.FloydWarshall());
+	// cout<<endl;
+	// cout<<"********    Dijkstra    ********"<<endl;
+	// imprimirVector(grafo.Dijkstra(0));
+	// cout<<endl;
+
+	graph a = grafo.A_Star(0,8);
+	a.print();
+	//grafo.BellmanFord(0);
 	return 0;
 }
