@@ -8,7 +8,10 @@
 #include <string>
 #include <iostream>
 #include <map>
+#include <unordered_map>
 #include <queue>
+#include <set>
+#include <limits>
 
 #include "node.h"
 #include "edge.h"
@@ -43,7 +46,7 @@ class Graph {
             nodos = 0;
             aristas = 0;
             directed = 0;
-            }
+        }
 
         ~Graph(){
             for (ni = nodes.begin(); ni != nodes.end(); ++ni){
@@ -129,6 +132,11 @@ class Graph {
         void insertarArista(N nodoInicial,N nodoFinal,N peso,bool direccion){
             node *buscador1 = buscarNodo(nodoInicial);
             node *buscador2 = buscarNodo(nodoFinal);
+
+            if (buscador1 == buscador2){
+                cout<<"No se permite loops"<<endl;
+                throw "Error";
+            }
             if (buscador1 && buscador2){
                 if (direccion == 0){
                     if (buscarArista(buscador1->recibirData(),buscador2->recibirData()) || buscarArista(buscador2->recibirData(),buscador1->recibirData())){
@@ -433,7 +441,186 @@ class Graph {
                     }
                 }
                 return true;
+        }
+
+        self GreedyBFS(N inicio, N fin){
+            node *nodoinicio = buscarNodo(inicio);
+            node *nodofin = buscarNodo(fin);
+            multimap<E,edge*> aristas;
+            map<node*,bool> pintados;
+            self nuevo_grafo;
+
+            for (int i = 0; i < nodes.size(); ++i){
+                pintados.insert(pair<node*,bool> (nodes[i],false));
             }
+
+            for (auto i: nodoinicio->edges){
+                aristas.insert(pair<E,edge*> (i->recibirData(),i));
+            }
+
+            cout<<"GreedyBFS:"<<endl;
+            pintados[nodoinicio] = true;
+
+            auto it = aristas.begin();
+            while (it != aristas.end()){
+                if (/*it->second->nodes[1] != nodoinicio &&*/ pintados[it->second->nodes[1]] == false){
+                    nuevo_grafo.insertarNodo(it->second->nodes[0]->recibirData(),it->second->nodes[0]->recibirX(),it->second->nodes[0]->recibirY());
+                    nuevo_grafo.insertarNodo(it->second->nodes[1]->recibirData(),it->second->nodes[1]->recibirX(),it->second->nodes[1]->recibirY());
+                    nuevo_grafo.insertarArista(it->second->nodes[0]->recibirData(),it->second->nodes[1]->recibirData(),it->first,0);
+                    cout<<"{"<<it->second->nodes[0]->recibirData()<<","<<it->second->nodes[1]->recibirData()<<" :"<<it->first<<"}"<<" ";
+                    nodoinicio = it->second->nodes[1];
+                    pintados[nodoinicio] = true;
+                    aristas.erase(it);
+                    if (it->second->nodes[1] == nodofin){
+                        break;
+                    }
+                    for (auto i: nodoinicio->edges){
+                        aristas.insert(pair<E,edge*> (i->recibirData(),i));
+                    }
+                    it = aristas.begin();
+                }else{
+                    aristas.erase(it);
+                    it = aristas.begin();
+                }
+            }
+            cout<<endl;
+
+            return nuevo_grafo;
+        }
+
+        E recibirPeso(N nodo1,N nodo2){
+            for (ni = nodes.begin(); ni != nodes.end(); ++ni){
+                if ((*ni)->recibirData() == nodo1){
+                    for (ei = (*ni)->edges.begin(); ei != (*ni)->edges.end(); ++ei){
+                        if ((*ei)->nodes[1]->recibirData() == nodo2){
+                            return (*ei)->recibirData();
+                        }
+                    }
+                }
+            }
+        }
+        
+        node *encontrarMenor(map<node*,double> m, set<node*> s){
+            auto it = m.begin();
+            double menor = numeric_limits<double>::max();
+            node *nodo;
+            for (; it != m.end(); ++it){
+                if (it->second < menor && s.count(it->first)){
+                    menor = it->second;
+                    nodo = it->first;
+                }
+            }
+            return nodo;
+        }
+
+        self path(map<node*,node*> vinoDe,node* current){
+            self nuevo_grafo;
+            while(vinoDe.count(current)){
+                nuevo_grafo.insertarNodo(current->recibirData(),current->recibirX(),current->recibirY());
+                nuevo_grafo.insertarNodo(vinoDe[current]->recibirData(),vinoDe[current]->recibirX(),vinoDe[current]->recibirY());
+                nuevo_grafo.insertarArista(vinoDe[current]->recibirData(),current->recibirData(),recibirPeso(vinoDe[current]->recibirData(),current->recibirData()),directed);
+                current = vinoDe[current];
+            }
+            return nuevo_grafo;
+        }
+    
+        self A_Star(N partida, N destino){//paralelo multiples busquedas
+            node *start = buscarNodo(partida);
+            node *goal = buscarNodo(destino);
+            double infinity = numeric_limits<double>::max();
+            
+            set<node*> openSet;
+            set<node*> closedSet;
+            map<node*,node*> vinoDe;
+            map<node*,double> gValor;
+            map<node*,double> costo;
+
+            openSet.insert(start);
+
+            for (int i = 0; i < nodes.size(); ++i){
+                gValor.insert(pair<node*,double> (nodes[i],infinity));
+            }
+            gValor[start] = 0;
+
+            for (int i = 0; i < nodes.size(); ++i){
+                costo.insert(pair<node*,double> (nodes[i],infinity));
+            }
+            costo[start] = start->distanciaEuclideana(goal);
+
+            while (!openSet.empty()){
+                node *current = encontrarMenor(costo,openSet);
+                if (current == goal){
+                    return path(vinoDe,current);
+                }
+
+                openSet.erase(current);
+                closedSet.insert(current);
+                
+                for (auto it: current->edges){
+                    if (closedSet.count(it->nodes[1]))
+                        continue;
+
+                    double tentative_gValor = gValor[current] + it->recibirData();
+                    
+                    if (!closedSet.count(it->nodes[1]))
+                        openSet.insert(it->nodes[1]);
+                    else if(tentative_gValor >= gValor[it->nodes[1]])
+                        continue;
+
+                    vinoDe[it->nodes[1]] = current;
+                    gValor[it->nodes[1]] = tentative_gValor;
+                    costo[it->nodes[1]] = gValor[it->nodes[1]] + it->nodes[1]->distanciaEuclideana(goal);
+                }
+            }
+        }
+
+        map<node*,N> BellmanFord(N nodo){
+            node* inicio = buscarNodo(nodo);
+            map<node*,int> distancia;
+            map<node*,N> predecesor;
+            cout<<"BellmanFord "<<endl;
+
+            int infinito = numeric_limits<int>::max();
+
+            for (int i = 0; i < nodes.size(); ++i){
+                distancia[nodes[i]] = infinito;
+                predecesor[nodes[i]] = -1;
+            }
+            distancia[inicio] = 0;
+            predecesor[inicio] = inicio->recibirData();
+
+            for (int it = 0; it < nodes.size()-1; ++it){
+                for (ni = nodes.begin(); ni != nodes.end(); ni++){
+                    for (auto i: (*ni)->edges){
+                        if (distancia[i->nodes[0]] + i->recibirData() < distancia[i->nodes[1]]){
+                            distancia[i->nodes[1]] = distancia[i->nodes[0]] + i->recibirData();
+                            predecesor[i->nodes[1]] = i->nodes[0]->recibirData();
+                        }
+                    }
+                }
+            }
+            
+
+            for (int i = 0; i < nodes.size(); ++i){
+                for (auto j: nodes[i]->edges){
+                    if (distancia[j->nodes[0]] + j->recibirData() < distancia[j->nodes[1]]){
+                        cout<<"Error, ciclos negativos"<<endl;
+                    }
+                }
+            }
+            
+            cout<<"Matriz pesos:"<<endl;
+            for (int i = 0; i < distancia.size(); ++i){
+                cout<<distancia[nodes[i]]<<" ";
+            }cout<<endl;
+
+            cout<<endl<<"Matriz caminos:"<<endl;
+            for (int i = 0; i < nodes.size(); ++i){
+                cout<<predecesor[nodes[i]]<<" ";
+            }cout<<endl;
+
+            return distancia,predecesor;
+        }
 
         vector<vector<int>> FloydWarshall(){
             vector<vector<int>> shortDistances(nodos, vector<int> (nodos, 0));

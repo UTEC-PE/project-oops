@@ -1,29 +1,50 @@
 #include <iostream>
+#include <thread>
+#include <mutex>
 #include "graph.h"
 #include "aux.h"
 using namespace std;
 
+#define NUM_THREADS 2
+
+vector<graph*> graphs;
+mutex mtx;
+
+void printA_star(int graph, int inicio,int fin){
+	//(grafo.A_Star(inicio,fin)).print();
+	//cout<<endl;
+	mtx.lock();
+	graphs[graph]->A_Star(inicio, fin).print();
+	cout<<endl;
+	mtx.unlock();
+}
+
 int main(int argc, char const *argv[]){
 	graph grafo;
+	thread threads[NUM_THREADS];
 
-	grafo.leerArchivo("grafo3.txt");
+	grafo.leerArchivo("grafo2.txt");
+	
 	grafo.print();
 	cout << endl;
-	//grafo.removerArista(4,3);
-	//grafo.print();
-	//grafo.removerNodo(3);
-	//grafo.print();
-	//graph grafoprim = grafo.prim(1);
-	//grafoprim.print();
-	//graph gkruskal = grafo.kruskal();
-	//gkruskal.print();
-	//grafo.print();
-	//	grafo.DFS(3);
-	//	grafo.BFS(4);
-	//	grafo.isBipartite();
-	//	grafo.grados();
-	//	cout<<grafo.isConnected();
-	
+	//graph gbfs = grafo.GreedyBFS(0,1);
+	//gbfs.print();
+	//graph as = grafo.A_Star(0,4);
+	//as.print();
+
+	/*
+	graph* test = new graph();
+	test->leerArchivo("grafo1.txt");
+	graphs.push_back(test);
+
+	threads[0] = thread(printA_star,0,0,8);
+	threads[1] = thread(printA_star,0,0,5);
+	for(int i = 0; i < NUM_THREADS;i++){
+		threads[i].join();
+	}*/
+
+	(grafo.A_Star(8,2)).print();
+	// grafo.BellmanFord(0);
 	cout<<"******** Floyd Warshall ********"<<endl;
 	imprimirMatriz(grafo.FloydWarshall());
 	cout<<endl;
