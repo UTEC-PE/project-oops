@@ -11,8 +11,8 @@
 - [x] Kruskal
 - [x] BFS
 - [x] DFS 
-- [ ] Dijkstra
-- [ ] Greedy BFS
-- [ ] A*
-- [ ] Floyd - Warshall
-- [ ] Bellman - Ford
+- [x] Dijkstra
+- [x] Greedy BFS
+- [x] A*
+- [x] Floyd - Warshall
+- [x] Bellman - Ford
