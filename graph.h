@@ -1,6 +1,7 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
+#define inf 99999
 #include <vector>
 #include <list>
 #include <fstream>
@@ -440,7 +441,7 @@ class Graph {
             for(int i=0;i<nodos;i++){
                 for(int j=0;j<nodos;j++){
                     if(i!=j)
-                    shortDistances[i][j] = 99999;
+                    shortDistances[i][j] = inf;
                 }
             }
 
@@ -462,6 +463,22 @@ class Graph {
             }
 
             return shortDistances;
+        }
+
+        vector<vector<int>> Dijkstra(N nombre){
+
+        }
+
+        void imprimirMatriz(vector<vector<int>> matrix){
+        	for(auto i:matrix){
+        		for(auto j:i){
+        			if(j!=inf)
+        				cout<<j<<"\t";
+        			else
+        				cout<<"inf"<<"\t";
+        		}
+        		cout<<endl;
+        	}
         }
 
     private:

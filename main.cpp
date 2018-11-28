@@ -2,10 +2,22 @@
 #include "graph.h"
 using namespace std;
 
+void imprimirMatriz(vector<vector<int>> matrix){
+        	for(auto i:matrix){
+        		for(auto j:i){
+        			if(j!=inf)
+        				cout<<j<<"\t";
+        			else
+        				cout<<"inf"<<"\t";
+        		}
+        		cout<<endl;
+        	}
+        }
+
 int main(int argc, char const *argv[]){
 	graph grafo;
 
-	grafo.leerArchivo("grafo2.txt");
+	grafo.leerArchivo("grafo3.txt");
 	grafo.print();
 	cout << endl;
 	//grafo.removerArista(4,3);
@@ -17,19 +29,12 @@ int main(int argc, char const *argv[]){
 	//graph gkruskal = grafo.kruskal();
 	//gkruskal.print();
 	//grafo.print();
-<<<<<<< HEAD
-	//grafo.DFS(4);
-	//grafo.BFS(4);
-	//grafo.isBipartite();
-	//grafo.grados();
-	//cout<<grafo.isConnected()<<endl;
-=======
-//	grafo.DFS(3);
-//	grafo.BFS(4);
-//	grafo.isBipartite();
-//	grafo.grados();
-//	cout<<grafo.isConnected();
-//	grafo.FloydWarshall();
->>>>>>> fsocualaya
+	//	grafo.DFS(3);
+	//	grafo.BFS(4);
+	//	grafo.isBipartite();
+	//	grafo.grados();
+	//	cout<<grafo.isConnected();
+	
+	imprimirMatriz(grafo.FloydWarshall());
 	return 0;
 }
