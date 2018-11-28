@@ -1,6 +1,6 @@
 #include <iostream>
 #include "graph.h"
-#inlcude "aux.h"
+#include "aux.h"
 using namespace std;
 
 int main(int argc, char const *argv[]){
@@ -24,6 +24,11 @@ int main(int argc, char const *argv[]){
 	//	grafo.grados();
 	//	cout<<grafo.isConnected();
 	
+	cout<<"******** Floyd Warshall ********"<<endl;
 	imprimirMatriz(grafo.FloydWarshall());
+	cout<<endl;
+	cout<<"********    Dijkstra    ********"<<endl;
+	imprimirVector(grafo.Dijkstra(0));
+	cout<<endl;
 	return 0;
 }

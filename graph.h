@@ -435,8 +435,8 @@ class Graph {
                 return true;
             }
 
-        std::vector<std::vector<int>> FloydWarshall(){
-            std::vector<std::vector<int>> shortDistances(nodos, vector<int> (nodos, 0));
+        vector<vector<int>> FloydWarshall(){
+            vector<vector<int>> shortDistances(nodos, vector<int> (nodos, 0));
 
             for(int i=0;i<nodos;i++){
                 for(int j=0;j<nodos;j++){
@@ -465,8 +465,50 @@ class Graph {
             return shortDistances;
         }
 
-        vector<vector<int>> Dijkstra(N nombre){
+        vector<int> Dijkstra(N nombre){
+            node* source = buscarNodo(nombre);
+            vector<int> djkstr;
+            vector<bool> aux(nodos);
+            
+            for(int i=0;i<nodos;i++)
+                djkstr.push_back(inf);   
 
+            djkstr[nombre] = 0;
+
+            for(int i=0;i<nodos-1;i++){
+                int u = minDst(djkstr,aux);
+                aux[u] = true;
+
+
+                for(auto nds:nodes){
+                    if(!aux[nds->recibirData()] and hasPath(u,nds->recibirData()) and 
+                        djkstr[u]!=inf and djkstr[u] + buscarArista(u,nds->recibirData())->recibirData() <djkstr[nds->recibirData()])
+                        
+                        djkstr[nds->recibirData()] = djkstr[u] + buscarArista(u,nds->recibirData())->recibirData();
+
+                }
+            }
+
+            return djkstr;
+        }
+
+        bool hasPath(N n1, N n2){
+            node* u=buscarNodo(n1);
+            node* v=buscarNodo(n2);
+            for(auto i:u->edges){
+                if(i->nodes[1]->recibirData()==n2)
+                    return true;
+            }
+        }
+
+        N minDst(vector<N> dj, vector<bool> aux){
+            int min = inf, min_index; 
+           
+            for (int i = 0; i < nodos; i++) 
+                if (aux[i] == false && dj[i] <= min) 
+                    min = dj[i], min_index = i; 
+           
+            return min_index; 
         }
 
     private:
