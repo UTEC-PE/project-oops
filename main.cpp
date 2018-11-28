@@ -43,7 +43,7 @@ int main(int argc, char const *argv[]){
 		threads[i].join();
 	}*/
 
-	(grafo.A_Star(8,2)).print();
+	// (grafo.A_Star(8,2)).print();
 	// grafo.BellmanFord(0);
 	cout<<"******** Floyd Warshall ********"<<endl;
 	imprimirMatriz(grafo.FloydWarshall());
