@@ -1,6 +1,8 @@
 #ifndef NODE_H
 #define NODE_H
 
+#include <cmath>
+
 template <typename G>
 class Node {
     public:
@@ -40,11 +42,15 @@ class Node {
             return y;
         }
 
+        double distanciaEuclideana(Node<G> *goal){
+            return (double)sqrt(pow(this->recibirX() - goal->recibirX(),2) + pow(this->recibirY() - goal->recibirY(),2));
+        }
+
     private:
         N data;
         double x;
         double y;
-        bool visitado; 
+        bool visitado;
 };
 
 #endif
