@@ -26,9 +26,9 @@ class Edge {
             return dir;
         }
 
-    private:
-        E data;
-        bool dir;
+	E data;
+private:
+	bool dir;
 };
 
 #endif

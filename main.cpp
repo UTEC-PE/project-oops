@@ -16,10 +16,11 @@ int main(int argc, char const *argv[]){
 	//graph gkruskal = grafo.kruskal();
 	//gkruskal.print();
 	//grafo.print();
-	grafo.DFS(3);
-	grafo.BFS(4);
-	grafo.isBipartite();
-	grafo.grados();
-	cout<<grafo.isConnected();
+//	grafo.DFS(3);
+//	grafo.BFS(4);
+//	grafo.isBipartite();
+//	grafo.grados();
+//	cout<<grafo.isConnected();
+//	grafo.FloydWarshall();
 	return 0;
 }
